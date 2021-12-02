@@ -7,12 +7,7 @@ const serverStarted = (route,handle) => {
 
     const onServerRequest=(request, response) => {
         let pathName = url.parse(request.url).pathname;
-
-        route(handle,pathName);
-        console.log('Request Received for ' + pathName);
-        response.writeHead(200, { 'Content-Type': 'text/plain' });
-        response.write('Welcome from Node JS Application Server!')
-        response.end()
+        route(handle,pathName,response);       
     }
 
     http.createServer(onServerRequest).listen(1971);
