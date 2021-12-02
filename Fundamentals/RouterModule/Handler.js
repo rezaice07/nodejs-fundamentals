@@ -1,5 +1,8 @@
 
 
+
+let qryString=require('querystring');
+
 const home=(response)=>{
     let htmlContent=`
     <html xmlns="http://www.w3.org/1999/xhtml">
@@ -15,7 +18,10 @@ const home=(response)=>{
     </head>
     <body>
         <form>
-           <h1>Welcome  to Node Js Server
+           <h1>Welcome  to Node Js Server</h1>
+           <br />
+            <a href="/review">Go to Review</a>
+
         </form>
     </body>
     </html>
@@ -43,14 +49,14 @@ const review=(response)=>{
         
         <div class="container">
         <h2>Stacked form</h2>
-        <form action="/review" method="post">
+        <form action="/reviewPost" method="post">
         <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+            <label for="text">Username:</label>
+            <input type="text" class="form-control" id="Username" placeholder="Enter Username" name="Username">
         </div>
         <div class="form-group">
             <label for="pwd">Password:</label>
-            <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd">
+            <input type="password" class="form-control" id="Password" placeholder="Enter password" name="Password">
         </div>
         <div class="form-group form-check">
             <label class="form-check-label">
@@ -70,8 +76,18 @@ const review=(response)=>{
     response.end();
 }
 
+const reviewPost=(response,data)=>{    
+    console.log('Review Posting to Server')
+    response.writeHead(200, { 'Content-Type': 'text/plain' });
+    //response.write(`Your review is `+qryString.parse(data).text);
+    console.log(data)
+    response.write(`Your review is Username: ${data.Username} Password:${data.Password}`);
+    response.end();
+}
+
 
 module.exports={
     home:home,
-    review:review
+    review:review,
+    reviewPost:reviewPost
 }

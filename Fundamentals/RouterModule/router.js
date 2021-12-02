@@ -1,8 +1,8 @@
 
-const route = (handle, pathname,response)=>{
+const route = (handle, pathname,response,data)=>{
     console.log('Routing a request for '+ pathname);
     if(typeof handle[pathname]==='function'){
-        handle[pathname](response);
+        handle[pathname](response,data);
     }
     else{
         console.log('No handler for '+ pathname)       
