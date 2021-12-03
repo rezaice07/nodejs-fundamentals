@@ -3,57 +3,66 @@ let MongoClient = mongodb.MongoClient;
 
 let url = 'mongodb://localhost:27017';
 
-MongoClient.connect(url, function (err, client) {
-  if (err) throw err;
-  var db = client.db('local');
-  db.collection('apples').findOne({}, function (findErr, result) {
-    if (findErr) throw findErr;
-    console.log(result);
-    client.close();
-  });
-}); 
+const GetAllApples = () => {
+    MongoClient.connect(url, (err, client) => {
+        if (err) throw err;
+        var db = client.db('fruits');
 
-/*
-MongoClient.connect(url, (err, client) => {
-    if (err) {
-        console.log(err);
-    }
-    else {
-        console.log('Mongodb Connected');
+        db.collection('apples').find({}).toArray((findErr, result) => {
+            if (findErr) throw findErr;
+            console.log(result);
+            client.close();
+        });
 
-        var db = client.db('apples');
+    });
+}
 
-        //let's insert values in fruits collection
+const GetApplesByFilter = (searchTerm) => {
+    MongoClient.connect(url, (err, client) => {
+        if (err) throw err;
+        var db = client.db('fruits');
 
-        // let col01={
-        //     name:'Red Apples',
-        //     name:'Green Apples',
-        //     name:'White Apples',
-        // }
-        //collection.insert({name:'Red Apples',color:'Red'})
+        db.collection('apples').findOne({ name: searchTerm }, (findErr, result) => {
+            if (findErr) throw findErr;
+            console.log(result);
+            client.close();
+        });
 
-        
-        //find in a collection
-        db.collection.findOne(
-            {
+    });
+}
 
-            },
-            (err, res) => {
-                if (err) {
-                    console.log(err)
-                }
-                else if (res.length) {
-                    console.log(res)
-                }
-                else {
-                    console.log('No matches found')
-                }
 
-                client.close();
-            }
-        )       
-                
-    }
-})
+const InsertNewApple = (newApple) => {
+    MongoClient.connect(url, (err, client) => {
+        if (err) throw err;
+        var db = client.db('fruits');       
 
-*/
+        db.collection('apples').insertOne(newApple, (findErr, result) => {
+            if (findErr) throw findErr;
+            console.log("New apple inserted");
+            client.close();
+        });
+
+    });
+}
+
+const InsertManyApple = (newApples) => {
+    MongoClient.connect(url, (err, client) => {
+        if (err) throw err;
+        var db = client.db('fruits');       
+
+        db.collection('apples').insertMany(newApples, (findErr, result) => {
+            if (findErr) throw findErr;
+            console.log("Apples inserted");
+            client.close();
+        });
+
+    });
+}
+
+module.exports = {
+    GetAllApples: GetAllApples,
+    GetApplesByFilter: GetApplesByFilter,
+    InsertNewApple:InsertNewApple,
+    InsertManyApple:InsertManyApple
+}
