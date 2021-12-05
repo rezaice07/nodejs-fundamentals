@@ -1,8 +1,10 @@
 let mongodb=require('./mongodb');
 
-mongodb.GetAllApples();
+//mongodb.GetAllApples();
 
-//mongodb.GetApplesByFilter("Red Apple");
+//mongodb.GetAppleByFilter("BD Apple");
+
+//mongodb.GetApplesByFilter(/^BD/);
 
 /*
 let newApple = { name: "Red-White Apple", color: "Red White" }
@@ -17,3 +19,6 @@ let newApples = [
 ]
 mongodb.InsertManyApple(newApples);
 */
+//mongodb.GetAllApples();
+
+mongodb.UpdateApple();
