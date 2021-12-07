@@ -1,0 +1,54 @@
+{
+  "editor.fontSize": 22,
+  "editor.fontFamily": "OperatorMonoLig-Book, Hind Siliguri, OperatorMono, OperatorMono-Light, Fira Code, 'Courier New'",
+  "editor.fontLigatures": true,
+  "editor.wordWrap": "on",
+  "editor.minimap.enabled": false,
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": "comment",
+        "settings": {
+          "fontStyle": "italic"
+        }
+      }
+    ]
+  },
+  "editor.renderLineHighlight": "none",
+  "editor.hover.enabled": true,
+  "editor.cursorSmoothCaretAnimation": true,
+  "editor.cursorBlinking": "expand",
+
+  // config related to code formatting
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "[javascript]": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": null
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.organizeImports": true
+  },
+  "eslint.alwaysShowStatus": true,
+  "prettier.disableLanguages": ["javascript", "javascriptreact"],
+
+  //exploer
+  "explorer.confirmDelete": false,
+  "explorer.openEditors.visible": 0,
+  "explorer.compactFolders": false,
+  "explorer.autoReveal": false,
+  "explorer.confirmDragAndDrop": false,
+
+  //workbench settings
+
+  "workbench.colorTheme": "Dracula",
+  "workbench.colorCustomizations": {
+    "statusBar.background": "#007acc",
+    "statusBar.foreground": "#ffffff",
+    "statusBar.noFolderBackground": "#ffffff",
+    "statusBar.debuggingBackground": "#d75226",
+    "editorCursor.background": "#ffff4d",
+    "editorCursor.foreground": "#ffff4d"
+  }
+}
