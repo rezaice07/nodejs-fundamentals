@@ -1,0 +1,31 @@
+
+Video Tracking Link
+-------------------
+https://www.youtube.com/watch?v=_7AKC-Q9mKc&list=PLHiZ4m8vCp9PHnOIT7gd30PCBoYCpGoQM&index=9&ab_channel=LearnwithSumitBangladesh
+
+
+Installtions
+------------
+01. Nodemon
+Programmer needs to update code frequently, that's why it is need to execute node file 
+repeatedly. 
+
+Hence, nodeman will help us to run node command again and again. Just run below command 
+to install globally.
+
+npm install -g nodemon
+
+Configure: 
+In package.js file, just add belo lines
+"scripts": {
+    "start": "nodemon index" //here index is the index.js //file which will run after server start
+},
+
+npm Command:
+Go to command vs code terminal and write below command and hit enter button.
+
+npm run
+
+Result: 
+Go to postman and enjoy and see the possible changes made in js.
+
