@@ -37,23 +37,22 @@ handle.handleReqRes = (req, res) => {
     // for FYI: routes['sample'] means sample value of routes object
     const choosenHandler = routes[trimmedPath] ? routes[trimmedPath] : notFoundHandler;
 
-    choosenHandler(requestProperties, (statusCode, payload) => {
-        statusCode = typeof statusCode === 'number' ? statusCode : 500;
-        payload = typeof payload === 'object' ? payload : {};
-        const payloadString = JSON.stringify(payload);
-
-        // return the final response
-        res.writeHead(statusCode);
-        res.end(payloadString);
-    });
-
     req.on('data', (buffer) => {
         realData += decoder.write(buffer);
     });
 
     req.on('end', () => {
         realData += decoder.end();
-        console.log(realData);
+
+        choosenHandler(requestProperties, (statusCode, payload) => {
+            statusCode = typeof statusCode === 'number' ? statusCode : 500;
+            payload = typeof payload === 'object' ? payload : {};
+            const payloadString = JSON.stringify(payload);
+
+            // return the final response
+            res.writeHead(statusCode);
+            res.end(payloadString);
+        });
 
         // response handle
         res.end('Hello World');
