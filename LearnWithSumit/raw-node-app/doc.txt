@@ -29,3 +29,18 @@ npm run
 Result: 
 Go to postman and enjoy and see the possible changes made in js.
 
+
+02. API Post Request Body
+{
+    "firstName":"Rejwanul",
+    "lastName":"Reja",
+    "phone":"01718055626",
+    "password":"asdf1234",
+    "tosAgreement":true
+}
+
+02. get request
+localhost:7000/user?phone=01718055627
+
+
+

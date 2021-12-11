@@ -19,7 +19,7 @@ lib.create = (dir, file, data, callback) => {
             // write data to file and hen close it
             fs.writeFile(fileDescriptor, stringData, (err) => {
                 if (!err) {
-                    fs.close(file, (err) => {
+                    fs.close(fileDescriptor, (err) => {
                         if (!err) {
                             callback(false);
                         } else {
@@ -31,7 +31,6 @@ lib.create = (dir, file, data, callback) => {
                 }
             });
         } else {
-            console.log(err);
             callback('Could not create new file, it may already exists');
         }
     });
@@ -62,7 +61,7 @@ lib.update = (dir, file, data, callback) => {
                             // close the file
                             fs.close(fileDescriptor, (err) => {
                                 if (!err) {
-                                    callback('Update Successful!');
+                                    callback(false);
                                 } else {
                                     callback('Error on closing file');
                                 }
@@ -87,7 +86,7 @@ lib.delete = (dir, file, callback) => {
     // unlink file
     fs.unlink(filePath, (err) => {
         if (!err) {
-            callback('Data deleted!');
+            callback(false);
         } else {
             callback('Error on deleting!');
         }

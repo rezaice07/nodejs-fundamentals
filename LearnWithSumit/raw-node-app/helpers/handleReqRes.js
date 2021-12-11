@@ -9,7 +9,7 @@ const url = require('url');
 const { StringDecoder } = require('string_decoder');
 const routes = require('../routes');
 const { notFoundHandler } = require('../handlers/routeHandlers/notFoundHandler');
-
+const { parseJSON } = require('./utilies');
 // module scaffolding
 const handle = {};
 // handle request response
@@ -30,6 +30,7 @@ handle.handleReqRes = (req, res) => {
         method,
         queryStringObject,
         heardObjects,
+        body: {},
     };
     const decoder = new StringDecoder();
     let realData = '';
@@ -37,25 +38,26 @@ handle.handleReqRes = (req, res) => {
     // for FYI: routes['sample'] means sample value of routes object
     const choosenHandler = routes[trimmedPath] ? routes[trimmedPath] : notFoundHandler;
 
+    // here butter means client's submitted data
     req.on('data', (buffer) => {
         realData += decoder.write(buffer);
     });
 
     req.on('end', () => {
         realData += decoder.end();
+        requestProperties.body = parseJSON(realData);
 
-        choosenHandler(requestProperties, (statusCode, payload) => {
+        // userHandler(reqProps,callback)
+        choosenHandler(requestProperties, (statusCode, payload = {}) => {
             statusCode = typeof statusCode === 'number' ? statusCode : 500;
             payload = typeof payload === 'object' ? payload : {};
-            const payloadString = JSON.stringify(payload);
 
+            const payloadString = JSON.stringify(payload);
             // return the final response
+            res.setHeader('Content-Type', 'application/json');
             res.writeHead(statusCode);
             res.end(payloadString);
         });
-
-        // response handle
-        res.end('Hello World');
     });
 };
 

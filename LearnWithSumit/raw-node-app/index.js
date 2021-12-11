@@ -40,9 +40,12 @@ data.update('sandbox', 'sandbox-file', { name: 'USA', Language: 'English' }, (er
 */
 
 // deleting data or file
+/*
 data.delete('sandbox', 'sandbox-file', (res) => {
     console.log(`${res}`);
 });
+*/
+
 // create server
 app.createServer = () => {
     const server = http.createServer(app.handleReqRes);
