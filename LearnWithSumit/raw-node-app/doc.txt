@@ -1,7 +1,7 @@
 
 Video Tracking Link
 -------------------
-https://www.youtube.com/watch?v=OwXw8nV7RPc&list=PLHiZ4m8vCp9PHnOIT7gd30PCBoYCpGoQM&index=10&ab_channel=LearnwithSumitBangladesh
+https://www.youtube.com/watch?v=KPl8NLRK52c&list=PLHiZ4m8vCp9PHnOIT7gd30PCBoYCpGoQM&index=11&ab_channel=LearnwithSumitBangladesh
 
 
 Installtions
@@ -41,6 +41,34 @@ Go to postman and enjoy and see the possible changes made in js.
 
 02. get request
 localhost:7000/user?phone=01718055627
+
+
+03. Generate token
+Method: POST// localhost:7000/token
+Payload: 
+{
+    "phone":"01718055626",
+    "password":"asdf1234"
+}
+
+04. Generate token
+Method: GET// localhost:7000/token?id=YOUR_TOKEN
+
+
+04. update token
+Method: PUT// localhost:7000/YOUR_TOKEN
+Body:
+{
+    "id":"9hr8sgo68hhg46sbaba8s8gwd89gs6sa6fg9sss8bhht88dhs468gdsbs9kghs475hsd4gr6h7sg7b6sssbg99g8h7998hsh48hrbiasg6sh66877sefasgi",
+    "extend":true
+}
+
+05. delete token
+Method: DELETE// localhost:7000/token
+Body:
+{
+    "id":"9hr8sgo68hhg46sbaba8s8gwd89gs6sa6fg9sss8bhht88dhs468gdsbs9kghs475hsd4gr6h7sg7b6sssbg99g8h7998hsh48hrbiasg6sh66877sefasgi"
+}
 
 
 
