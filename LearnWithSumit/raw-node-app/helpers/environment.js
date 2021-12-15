@@ -14,12 +14,18 @@ environments.staging = {
     port: 7000,
     envName: 'staging',
     secretKey: 'ghdjdjdtjdtjdtjdfjdtjdtj',
+    twillio:{
+        fromPhone:''
+    }
 };
 
 environments.production = {
     port: 8000,
     envName: 'production',
     secretKey: 'afafafafafaefeafasfaefaef',
+    twillio:{
+        fromPhone:''
+    }
 };
 // determine which environment was passed
 const currentEnvironment =
