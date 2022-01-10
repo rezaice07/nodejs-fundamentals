@@ -16,7 +16,7 @@ to install globally.
 npm install -g nodemon
 
 Configure: 
-In package.js file, just add belo lines
+In package.js file, just add below lines
 "scripts": {
     "start": "nodemon index" //here index is the index.js //file which will run after server start
 },

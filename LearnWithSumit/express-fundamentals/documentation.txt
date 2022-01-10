@@ -3,3 +3,23 @@ http://expressjs.com/en/4x/api.html
 
 01. Installing expressjs
 npm i express
+
+02. Nodemon
+Programmer needs to update code frequently, that's why it is need to execute node file 
+repeatedly. 
+
+Hence, nodeman will help us to run node command again and again. Just run below command 
+to install globally.
+
+npm install -g nodemon
+
+Configure: 
+In package.js file, just add below lines
+"scripts": {
+    "start": "nodemon index" //here index is the index.js //file which will run after server start
+},
+
+npm Command:
+Go to command vs code terminal and write below command and hit enter button.
+
+npm run
