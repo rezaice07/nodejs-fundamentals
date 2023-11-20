@@ -1,0 +1,32 @@
+
+#What is a Package
+NPM is a package manager for Node.js packages, or modules if you like.
+
+www.npmjs.com hosts thousands of free packages to download and use.
+
+#What is a Package?
+A package in Node.js contains all the files you need for a module.
+
+#Download a Package
+
+#Download "upper-case"
+
+npm install upper-case
+or npm i upper-case
+
+#Using a Package
+
+var uc = require('upper-case');
+
+#Example
+
+var http = require('http');
+var uc = require('upper-case');
+http.createServer(function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  res.write(uc.upperCase("Hello World!"));
+  res.end();
+}).listen(8080);
+
+
+
