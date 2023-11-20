@@ -1,0 +1,64 @@
+Node.js File System Module
+--------------------------------
+
+#Common use for the File System module:
+	[x] Read files
+	[x] Create files
+	[x] Update files
+	[x] Delete files
+	[x] Rename files
+	
+#Read Files
+The fs.readFile() method is used to read files on your computer.
+
+#let's create a file with the name of welcome.html
+<html>
+	<body>
+	<h1>Welcome to node js!</h1>
+	<p>This is an example of filesystem of reading methods in node js </p>
+	</body>
+</html>
+
+
+#and the modifed index.js is
+
+var http = require('http');
+var fs = require('fs');
+
+http.createServer(function (req, res) {
+
+  //reading file using readFile method on fs
+  fs.readFile('welcome.html', function(err, data) {
+  
+	//header
+    res.writeHead(200, {'Content-Type': 'text/html'});
+	
+	//writter
+    res.write(data);
+	
+	//and finally end
+    return res.end();
+	
+  });  
+  
+}).listen(8080);
+
+
+#Create Files
+
+#The File System module has methods for creating new files:
+
+	fs.appendFile()
+	fs.open()
+	fs.writeFile()
+	
+#Create a new file using the appendFile() method:
+
+
+var fs = require('fs');
+
+//create a file named mynewfile1.txt:
+fs.appendFile('mynewfile1.txt', 'Hello content!', function (err) {
+  if (err) throw err;
+  console.log('Saved!');
+});

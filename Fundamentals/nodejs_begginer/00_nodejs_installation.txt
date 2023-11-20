@@ -1,0 +1,48 @@
+
+
+Node js Get Started
+--------------------------
+
+#Conside the index.js file and that contain 
+
+var http = require('http');
+
+http.createServer(function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  res.end('Hello World!');
+}).listen(8080);
+
+
+
+# here we will inspect above this code snippet
+	1. http 
+		module
+		
+	2. writeHead:
+		writeHead(200, {'Content-Type': 'text/html'});
+
+	3. end
+		end('Hello World!');
+		
+	4. listen
+		listen(8080);
+		
+		
+#now we will run the file on node server environment
+
+node index.js
+
+
+
+
+	
+
+	
+
+
+
+
+
+
+
+
