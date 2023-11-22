@@ -1,0 +1,32 @@
+
+
+Connect to MongoDB
+--------------------------
+
+#Install npm for nodejs
+
+npm install mongodb@6.3
+
+
+#Connect to MongoDB
+
+#Copy and paste the following code into the index.js file
+
+const { MongoClient } = require("mongodb");
+
+const uri = "mongodb://192.168.163.128:27017";
+const client = new MongoClient(uri);
+
+const run = async ()=>{
+  try {
+    const database = client.db('test');
+    const posts = database.collection('posts');
+    const query = {  };
+    const post = await posts.findOne(query);
+    console.log(post);
+  } finally {
+    await client.close();
+  }
+}
+
+run().catch(console.dir);

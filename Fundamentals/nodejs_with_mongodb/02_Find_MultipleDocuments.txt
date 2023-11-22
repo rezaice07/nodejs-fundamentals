@@ -1,0 +1,36 @@
+
+
+Find Multiple Documents
+----------------------------------
+
+#consider the following example....
+
+const { MongoClient } = require("mongodb");
+
+const uri = "mongodb://192.168.163.128:27017";
+const client = new MongoClient(uri);
+
+const run = async ()=>{
+  try {
+    const database = client.db('test');
+    const posts = database.collection('posts');
+    const query = {  };
+
+    //Find that will return all possible records
+    const postData = await posts.find(query);
+   
+    if ((await posts.countDocuments(query)) === 0) {
+      console.log("No documents found!");
+    }
+
+    // Print returned documents
+    for await (const item of postData) {
+      console.dir(item);
+    }
+
+  } finally {
+    await client.close();
+  }
+}
+
+run().catch(console.dir);

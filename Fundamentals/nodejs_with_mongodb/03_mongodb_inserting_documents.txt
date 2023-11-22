@@ -1,0 +1,110 @@
+
+
+Mongodb inserting many documents
+--------------------------------------
+
+#Insert a Document
+
+
+const { MongoClient } = require("mongodb");
+
+const uri = "mongodb://192.168.163.128:27017";
+const client = new MongoClient(uri);
+
+const run = async ()=>{
+  try {
+    const database = client.db('ProductDb');
+    const products = database.collection('products');
+
+    const docProduct = 
+      {
+        title: "Titan Trax",
+        remarks: "this is Titan Trax"
+      }     
+    ;
+
+    // Insert the defined document into the "products" collection
+    const result = await products.insertOne(docProduct);
+    console.log(`Products inserted Successfully! and the id is :${result.insertedId}`);
+	
+
+    const query = { title: "Titan Trax" };
+
+    //Find that will return all possible records
+    const productData = await products.find(query);
+   
+    if ((await products.countDocuments(query)) === 0) {
+      console.log("No documents found!");
+    }
+
+    // Print returned documents
+    for await (const item of productData) {
+      console.dir(item);
+    }
+
+  } finally {
+    await client.close();
+  }
+}
+
+run().catch(console.dir);
+
+
+
+
+#Insert many documents
+const { MongoClient } = require("mongodb");
+
+const uri = "mongodb://192.168.163.128:27017";
+const client = new MongoClient(uri);
+
+const run = async ()=>{
+  try {
+    const database = client.db('ProductDb');
+    const products = database.collection('products');
+
+    const docProduct = [
+      {
+        title: "Quantum Spark",
+        remarks: "this is Quantum Spark"
+      },
+      {
+        title: "Eco Harmony",
+        remarks: "this is Eco Harmony"
+      },
+      
+      {
+        title: "Zen Blend",
+        remarks: "this is Zen Blend"
+      },
+      
+      {
+        title: "Nova Glow",
+        remarks: "this is Nova Glow"
+      },      
+    ];
+
+    // Insert the defined document into the "haiku" collection
+    const result = await products.insertMany(docProduct);
+    console.log(`Products inserted Successfully!`);
+
+    const query = {  };
+
+    //Find that will return all possible records
+    const productData = await products.find(query);
+   
+    if ((await products.countDocuments(query)) === 0) {
+      console.log("No documents found!");
+    }
+
+    // Print returned documents
+    for await (const item of productData) {
+      console.dir(item);
+    }
+
+  } finally {
+    await client.close();
+  }
+}
+
+run().catch(console.dir);
