@@ -1,8 +1,8 @@
 
-Update a Document
+Update Many Document
 --------------------------------------------
 
-#We will update a doc on product collection. Let's give an example
+#We will update many doc on product collection. Let's give an example
 
 
 const { MongoClient } = require("mongodb");
@@ -15,22 +15,16 @@ const run = async ()=>{
     const database = client.db('ProductDb');
     const products = database.collection('products');
 
-    const filter = { title: "Titan Trax" };
+    const filter = { };
     const options = { upsert: true };
 
-    const updateDoc = {
-      $set: {
-        title: `Titan Trax - Modified`
-      },
-    };
+    const updateDoc = [{$set: { title: {$concat:[`01. `,`$title`]}}}];
 
-    const resUpdateProd = await products.updateOne(filter, updateDoc, options);
+    const resUpdateProd = await products.updateMany(filter, updateDoc, options);
 
-    console.log(
-      `${resUpdateProd.matchedCount} document(s) matched the filter, updated ${resUpdateProd.modifiedCount} document(s)`,
-    );
+    console.log(`Updated ${resUpdateProd.modifiedCount} documents`);
 
-    const query = { title: "Titan Trax - Modified" };
+    const query = {  };
 
     //Find that will return all possible records
     const productData = await products.find(query);
@@ -53,4 +47,4 @@ run().catch(console.dir);
 
 
 References:
-https://www.mongodb.com/docs/drivers/node/current/usage-examples/updateOne/
+https://www.mongodb.com/docs/drivers/node/current/usage-examples/updateMany/

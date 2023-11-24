@@ -1,0 +1,52 @@
+
+Update many Document and contact using nodejs and mongodb
+-----------------------------------------------------------------
+
+#You can replace a single document using the collection.replaceOne() method. 
+#replaceOne() accepts a query document and a replacement document.
+
+#Let's consider we have a database and collection named as ProductDb and products respectively...
+#Now we wann to see how to replace a document
+
+const { MongoClient } = require("mongodb");
+
+const uri = "mongodb://192.168.163.128:27017";
+const client = new MongoClient(uri);
+
+const run = async ()=>{
+  try {
+    const database = client.db('ProductDb');
+    const products = database.collection('products');
+    
+    const filter = {  _id: ObjectId("65601ac034edcf17b666021c") };
+
+    const replaceDoc = { title:'This is replaced Document of Product Doc' };
+
+    const resUpdateProd = await products.replaceOne(filter, replaceDoc);
+
+	console.log(`Modified ${result.modifiedCount} document(s)`);
+
+    const query = { _id: ObjectId("65601ac034edcf17b666021c") };
+
+    //Find that will return all possible records
+    const productData = await products.find(query);
+   
+    if ((await products.countDocuments(query)) === 0) {
+      console.log("No documents found!");
+    }
+
+    // Print returned documents
+    for await (const item of productData) {
+      console.dir(item);
+    }
+
+  } finally {
+    await client.close();
+  }
+}
+
+run().catch(console.dir);
+
+
+References:
+https://www.mongodb.com/docs/drivers/node/current/usage-examples/updateOne/
