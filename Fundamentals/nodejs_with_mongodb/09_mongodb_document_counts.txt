@@ -1,0 +1,31 @@
+
+Count Documents
+------------------
+
+const { MongoClient } = require("mongodb");
+
+const uri = "mongodb://192.168.56.101:27017";
+const client = new MongoClient(uri);
+
+const run = async ()=>{
+  try {
+    const database = client.db('ProductDb');
+    const products = database.collection('products');
+
+	const estimate = await products.estimatedDocumentCount();
+
+	console.log(`Estimated number of documents in the products collection: ${estimate}`);
+
+    const query = { };
+
+    // count total documents from the "products" collection
+    const totCounts = await products.countDocuments(query);
+    
+	console.log(`Number of products: ${totCounts}`);
+
+  } finally {
+    await client.close();
+  }
+}
+
+run().catch(console.dir);
