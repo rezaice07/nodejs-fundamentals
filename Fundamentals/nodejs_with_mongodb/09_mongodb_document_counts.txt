@@ -29,3 +29,7 @@ const run = async ()=>{
 }
 
 run().catch(console.dir);
+
+
+References:
+https://www.mongodb.com/docs/drivers/node/current/usage-examples/count/

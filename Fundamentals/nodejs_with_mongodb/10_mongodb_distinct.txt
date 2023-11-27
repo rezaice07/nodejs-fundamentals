@@ -1,0 +1,42 @@
+
+
+
+Retrieve Distinct Values of a Field
+-----------------------------------------
+
+
+require('dotenv').config();
+
+const { MongoClient } = require("mongodb");
+
+const uri = `mongodb://${process.env.BASE_URL}:27017`;
+console.log(uri);
+
+
+const client = new MongoClient(uri);
+
+const run = async ()=>{
+  try {
+    const database = client.db('ProductDb');
+    const products = database.collection('products');
+
+
+    const fieldName = "title";
+
+    const query = {  };
+
+    const distinctValues = await products.distinct(fieldName, query);
+
+     // Print the result
+     console.log(distinctValues);
+
+  } finally {
+    await client.close();
+  }
+}
+
+run().catch(console.dir);
+
+
+References:
+https://www.mongodb.com/docs/drivers/node/current/usage-examples/distinct/
