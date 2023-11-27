@@ -1,0 +1,76 @@
+
+
+Use Mongodb Transaction
+--------------------------------
+
+
+
+async function placeOrder(client, cart, payment) {
+  const transactionOptions = {
+    readConcern: { level: 'snapshot' },
+    writeConcern: { w: 'majority' },
+    readPreference: 'primary'
+  };
+  // Start the session
+  const session = client.startSession();
+  try {
+    // Start the transaction in the session, specifying the transaction options
+    session.startTransaction(transactionOptions);
+    const ordersCollection = client.db('testdb').collection('orders');
+    /* Within the session, insert an order that contains information about the
+    customer, items purchased, and the total payment */
+    const orderResult = await ordersCollection.insertOne(
+      {
+        customer: payment.customer,
+        items: cart,
+        total: payment.total,
+      },
+      { session }
+    );
+    const inventoryCollection = client.db('testdb').collection('inventory');
+    
+    for (const item of order) {  
+      /* Update the inventory for the purchased items. End the
+      transaction if the quantity of an item in the inventory is
+      insufficient to complete the purchase. */
+      const inStock = await inventoryCollection.findOneAndUpdate(
+        {
+          item_id: item.item_id,
+          item_id: { $gte: item.qty }
+        },
+        { $inc: { 'qty': -item.qty }},
+        { session }
+      )
+      if (inStock === null) {
+        throw new Error('Insufficient quantity or item ID not found.');
+      }
+    }
+    const customerCollection = client.db('testdb').collection('customers');
+    // Within the session, add the order details to the "orders" array of the customer document
+    await customerCollection.updateOne(
+      { _id: payment.customer },
+      { $push:  { orders: orderResult.insertedId }},
+      { session }
+    );
+    // Commit the transaction to apply all updates performed within it
+    await session.commitTransaction();
+    console.log('Transaction successfully committed.');
+  } catch (error) {
+    /*
+      Handle any exceptions thrown during the transaction and end the
+      transaction. Roll back all the updates performed in the transaction.
+    */
+    if (error instanceof MongoError && error.hasErrorLabel('UnknownTransactionCommitResult')) {
+      // Add your logic to retry or handle the error
+    }
+    else if (error instanceof MongoError && error.hasErrorLabel('TransientTransactionError')) {
+      // Add your logic to retry or handle the error
+    } else {
+      console.log('An error occured in the transaction, performing a data rollback:' + error);
+    }
+    await session.abortTransaction();
+  } finally {
+    // End the session
+    await session.endSession();
+  }
+}
