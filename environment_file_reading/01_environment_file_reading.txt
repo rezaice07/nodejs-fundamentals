@@ -1,0 +1,51 @@
+
+
+Getting Value from Environment File
+--------------------------------------------
+
+#Install the npm package dotenv
+
+npm i dotenv
+
+
+#Let's create a file .env
+
+#Inside th .env file what I will do is that...
+
+DATABASE_CONFIG={"host":"localhost","user":"root","password":"password123"}
+
+BASE_URL=192.168.163.128;
+
+
+#Now we will create the index.js file and it contains like the following ways...
+
+require('dotenv').config();
+
+// Example - 01:
+const url=process.env.BASE_URL;
+console.log(`Base Url which is reading from env : ${url}`)
+
+//Example - 02: 
+
+const databaseConfigString = process.env.DATABASE_CONFIG;
+console.log(databaseConfigString);
+
+let databaseConfig;
+
+try {
+    databaseConfig = JSON.parse(databaseConfigString);
+} catch (error) {
+    console.error('Error parsing DATABASE_CONFIG:', error.message);
+}
+
+if (databaseConfig) {
+    console.log('Database Config:', databaseConfig);
+    console.log('Host:', databaseConfig.host);
+    console.log('User:', databaseConfig.user);
+    console.log('Password:', databaseConfig.password);
+}
+
+
+
+
+
