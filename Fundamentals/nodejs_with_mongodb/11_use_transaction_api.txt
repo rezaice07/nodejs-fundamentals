@@ -3,12 +3,65 @@
 Use Mongodb Transaction
 --------------------------------
 
+#Before starting the process to apply the transaction on mongodb, you should configure the replicaSet on mongod.config file in "/etc/mongod.conf"
+
+#Let's stop the db server
+
+db.shutdownServer()
+
+#Now we will stop the mongod service
+
+sudo systemclt stop -f mongod
+
+#In mongod.conf file where we can file the section for replication in the yaml file. Just edit the configurations as like...
+
+replication:
+  oplogSizeMB: 2000
+  replSetName: rs0
+  
+#Let's turn on mongod again
+
+sudo systemctl start mongod
+
+#Access your replicaSet database
+
+mongosh;
+
+rs.initiate();
+  
+#add your connection string URL as like ....
+
+mongodb://192.168.163.128:27017/?directConnection=true&replicaSet=rs0
+  
+#Now we will apply the transaction scope in our node js application for the multiple transactions
+
+#We should have a look the methods of transaction  as like ...
+
+01. startSession()
+	- init the session
+	
+02. startTransaction
+	- Start the transaction in the session, specifying the transaction options
+	
+03. commitTransaction()
+	- for committing all the transactions
+
+04. abortTransaction()
+	- for aborting all the changes 
+
+05. endSession()
+	- for destring the session
+	
+#Let's give an example of mongodb transaction.
+
+#Here we consider the db "ebankdb" and two collections "bankAccounts" and "bankTransactions" respectively.
+
 
 require('dotenv').config();
-const { MongoClient, ClientSession } = require("mongodb");
+const { MongoClient, ClientSession,MongoError } = require("mongodb");
 const url = process.env.BASE_URL;
 
-const uri = `mongodb://${url}:27017`;
+const uri = `mongodb://${url}:27017/?directConnection=true&replicaSet=rs0`;
 const client = new MongoClient(uri);
 
 const transactionOptions = {
@@ -40,7 +93,7 @@ const app = {
                 Branch: "DBBL Corporate Office",
                 BankName: "DBBL"
             };
-            const resBnkAcnt = await bankAccounts.insertOne(docBankAccount);
+            const resBnkAcnt = await bankAccounts.insertOne(docBankAccount,{session});
             if (!resBnkAcnt || !resBnkAcnt.insertedId) await session.abortTransaction();
 
             //insert new bank trx
@@ -59,27 +112,24 @@ const app = {
                     crAmunt: 125487,
                 }
             ];
-            const resBnkTrx = await bankTrx.insertMany(docBankTrx);
+            const resBnkTrx = await bankTrx.insertMany(docBankTrx,{session});
             if (!resBnkTrx) await session.abortTransaction();
 
             await session.commitTransaction();
             console.log('Transaction successfully committed.');
 
-            const dataBnkTrx = await bankTrx.find({});
-            // Print returned documents
-            for await (const item of dataBnkTrx) {
-                console.dir(item);
-            }
+            // await session.abortTransaction();
+            // console.log('Transaction successfully aborted.');            
         }
         catch (error) {
-            // if (error instanceof MongoError && error.hasErrorLabel('UnknownTransactionCommitResult')) {
-            //     // Add your logic to retry or handle the error
-            // }
-            // else if (error instanceof MongoError && error.hasErrorLabel('TransientTransactionError')) {
-            //     // Add your logic to retry or handle the error
-            // } else {
-            //     console.log('An error occured in the transaction, performing a data rollback:' + error);
-            // }
+            if (error instanceof MongoError && error.hasErrorLabel('UnknownTransactionCommitResult')) {
+                // Add your logic to retry or handle the error
+            }
+            else if (error instanceof MongoError && error.hasErrorLabel('TransientTransactionError')) {
+                // Add your logic to retry or handle the error
+            } else {
+                console.log('An error occured in the transaction, performing a data rollback:' + error);
+            }
             console.log(error);
             await session.abortTransaction();
         }
@@ -93,7 +143,9 @@ const app = {
 app.initBankTrx();
 
 
-//https://stackoverflow.com/questions/51461952/mongodb-v4-0-transaction-mongoerror-transaction-numbers-are-only-allowed-on-a
+#References:
+	https://www.mongodb.com/docs/drivers/node/current/usage-examples/transaction-core/
+	https://stackoverflow.com/questions/51461952/mongodb-v4-0-transaction-mongoerror-transaction-numbers-are-only-allowed-on-a
 
 
 

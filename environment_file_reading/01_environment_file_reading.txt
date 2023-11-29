@@ -10,7 +10,7 @@ npm i dotenv
 
 #Let's create a file .env
 
-#Inside th .env file what I will do is that...
+#Inside the .env file what I will do is that...
 
 DATABASE_CONFIG={"host":"localhost","user":"root","password":"password123"}
 
@@ -45,6 +45,7 @@ if (databaseConfig) {
     console.log('Password:', databaseConfig.password);
 }
 
+https://www.youtube.com/watch?v=gzCZ7l4pK3Y
 
 
 
