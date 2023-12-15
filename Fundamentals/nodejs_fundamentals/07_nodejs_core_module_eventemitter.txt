@@ -1,5 +1,3 @@
-
-
 Nodejs Core Module - EventEmitter
 ---------------------------------------
 #Example - 01:
