@@ -1,1 +1,66 @@
 
+
+Nodejs Core Module - EventEmitter
+---------------------------------------
+#Example - 01:
+
+#Basic Use
+
+const EventEmitter = require("events");
+
+const emitter = new EventEmitter();
+
+//registering Event
+emitter.on("addingtoCart", (product) => {
+  console.log("Success! Item added to Cart.");
+  console.log(
+    `Title: ${product.title} Price: ${product.price} Qty: ${product.qty}`
+  );
+});
+
+//raise the event
+emitter.emit("addingtoCart", { title: "Honey 250gm", price: 300, qty: 5 });
+
+//Note: it will never work if we call the raise event before registering
+
+
+#Example 02:
+
+#using class
+
+
+const EventEmitter = require("events");
+
+class Customer extends EventEmitter {
+  initCart = () => {
+    console.log(`Add to Cart in progress! Please Wait`);
+    console.log(`**************************************************`);
+
+    this.on("addingtoCart", (product) => {
+      console.log("Success! Item added to Cart.");
+      console.log(
+        `Title: ${product.title} Price: ${product.price} Qty: ${product.qty}`
+      );
+    });
+  };
+
+  addToCart = () => {
+    setTimeout(() => {
+      const product = { title: "Honey 250gm", price: 300, qty: 5 };
+      this.emit("addingtoCart", product);
+    }, 3000);
+  };
+}
+
+module.exports = Customer;
+
+const cstmr = require("./customer");
+
+const customer = new cstmr();
+
+customer.initCart();
+
+customer.addToCart();
+
+
+
